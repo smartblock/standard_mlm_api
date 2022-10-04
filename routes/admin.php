@@ -99,5 +99,9 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 
             $router->post('adjustments', [\App\Http\Controllers\Admin\Stock\GoodAdjustmentController::class, 'save'])->name('stock.adjustment.post');
         });
+
+        $router->group(['prefix' => 'announcements'], function () use ($router) {
+            $router->post('', [\App\Http\Controllers\Admin\AnnouncementController::class, 'save'])->name('announcement.post');
+        });
     });
 });

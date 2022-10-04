@@ -24,7 +24,7 @@ class AdminLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|min:6',
+            'username' => 'required|alpha_dash|min:6',
             'password' => 'required|min:6'
         ];
     }
@@ -32,7 +32,7 @@ class AdminLoginRequest extends FormRequest
     public function attributes()
     {
         return [
-            'email' => trans('validate.email'),
+            'username' => trans('validate.username'),
             'password' => trans('validate.password')
         ];
     }

@@ -36,13 +36,13 @@ class AuthService extends BaseService
 
     /**
      * @param string $gateway
-     * @param string $email
+     * @param string $username
      * @param string $password
      * @return array
      */
-    public function authenticate(string $gateway, string $email, string $password)
+    public function authenticate(string $gateway, string $username, string $password)
     {
-        $user = $this->interface->findBy('email', $email, ['*']);
+        $user = $this->interface->findBy('username', $username);
         if (!$user) {
             return $this->response(false, 'invalid_user_credential');
         }

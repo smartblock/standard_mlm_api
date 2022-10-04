@@ -32,7 +32,7 @@ class LoginController extends Controller
         $this->insertLog('LOGIN', $request);
 
         Try {
-            $result = $this->authService->authenticate('admin', $request->input('email'), $request->input('password'));
+            $result = $this->authService->authenticate('admin', $request->input('username'), $request->input('password'));
             if ($result['status']) {
                 $this->updateLog($result['message']);
                 return $this->success($result['message'], $result['data']);
