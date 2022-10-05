@@ -56,6 +56,8 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
             $router->put('{id}', [\App\Http\Controllers\Admin\GeneralSettingController::class, 'update'])->name('setting.update');
         });
 
+        $router->get('wallets', [\App\Http\Controllers\Admin\Wallet\WalletController::class, 'all'])->name('wallet.all');
+
         $router->group(['prefix' => 'wallet'], function () use ($router) {
             $router->post('adjustments', [\App\Http\Controllers\Admin\Wallet\AdjustmentController::class, 'save'])->name('wallet.adjustment.post');
             $router->get('statements', [\App\Http\Controllers\Admin\Wallet\WalletController::class, 'index'])->name('wallet.statement.get');

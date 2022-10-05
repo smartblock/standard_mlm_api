@@ -49,8 +49,7 @@ class AdjustmentController extends Controller
             DB::rollback();
             return $this->error($result['message'], 422);
         } Catch (\Throwable $exception) {
-            DB::rollback();
-            return $this->error();
+            return $this->error($exception);
         }
     }
 }

@@ -45,7 +45,7 @@ class WalletAdjustmentService extends WalletService
         }
 
         $result = $this->walletTransInOut($user['id'], $wallet['id'], $this->transType, ($amount > 0) ? $amount : 0, ($amount < 0) ? abs($amount) : 0, [
-                'remark' => $options['remark']
+                'remark' => $options['remark'] ?? null
             ]);
         if ($result) {
             return $this->response(true, 'record_saved_successfully');

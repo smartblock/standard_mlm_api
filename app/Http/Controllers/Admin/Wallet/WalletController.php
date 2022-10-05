@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Wallet;
 use App\Http\Controllers\Controller;
 
 use App\Http\Resources\Admin\BalanceResource;
+use App\Http\Resources\Admin\WalletResource;
 use App\Traits\ResponseAPI;
 
 use App\Http\Requests\Admin\Wallet\StatementListRequest;
@@ -79,5 +80,14 @@ class WalletController extends Controller
         } Catch (\Throwable $exception) {
             return $this->error();
         }
+    }
+
+    public function all()
+    {
+        $result = $this->walletService->listAll(['*'], [], [
+            'is_allowed_admin' => 1
+        ]);
+
+        return $this->success('success', WalletResource::collection($result));
     }
 }

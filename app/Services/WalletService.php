@@ -34,6 +34,11 @@ class WalletService extends BaseService
         $this->walletDetailInterface = $walletDetailInterface;
     }
 
+    public function listAll(array $columns = ['*'], array $relations = [], array $params = [], array $orders = [], string $lock = null)
+    {
+        return $this->walletSetupInterface->all($columns, $relations, $params, $orders, $lock);
+    }
+
     public function all(int $page, array $columns = ['*'], array $params = [], array $order = [], array $relations = [])
     {
         if (!empty($params['limit'])) {
