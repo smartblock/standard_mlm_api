@@ -14,6 +14,7 @@ use App\Interfaces\ProductVariantInterface;
 use App\Interfaces\RequestLogInterface;
 use App\Interfaces\RoleInterface;
 use App\Interfaces\SettingInterface;
+use App\Interfaces\SponsorLogInterface;
 use App\Interfaces\StockGoodReceiveInterface;
 use App\Interfaces\StockGoodReceiveItemInterface;
 use App\Interfaces\StockLocationInterface;
@@ -38,6 +39,7 @@ use App\Repositories\ProductVariantRepository;
 use App\Repositories\RequestLogRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\SettingRepository;
+use App\Repositories\SponsorLogRepository;
 use App\Repositories\StockGoodReceiveItemRepository;
 use App\Repositories\StockGoodReceiveRepository;
 use App\Repositories\StockLocationRepository;
@@ -94,6 +96,8 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(AnnouncementInterface::class, AnnouncementRepository::class);
         $this->app->bind(AnnouncementDetailInterface::class, AnnouncementDetailRepository::class);
+
+        $this->app->bind(SponsorLogInterface::class, SponsorLogRepository::class);
     }
 
     /**

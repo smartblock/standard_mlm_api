@@ -28,6 +28,7 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
 
         $router->group(['prefix' => 'members'], function () use ($router) {
             $router->get('', [\App\Http\Controllers\Admin\MemberController::class, 'index'])->name('member.list');
+            $router->post('sponsor', [\App\Http\Controllers\Admin\SponsorController::class, 'save'])->name('member.sponsor.post');
         });
 
         $router->group(['prefix' => 'roles'], function () use ($router) {

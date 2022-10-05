@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('sponsor_from', 50)->nullable();
             $table->unsignedInteger('sponsor_id_to');
             $table->string('sponsor_to', 50)->nullable();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->index([
                 'user_id',
                 'sponsor_id_from',

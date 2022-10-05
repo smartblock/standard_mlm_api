@@ -41,9 +41,9 @@ class BaseService
      * @param array $relations
      * @return array
      */
-    public function getDetails($id, array $relations = [])
+    public function getDetails($id)
     {
-        $result = $this->interface->findBy('id', $id, ['*'], $relations);
+        $result = $this->interface->findBy('id', $id);
         if ($result) {
             return $this->response(true, 'success', $result);
         }

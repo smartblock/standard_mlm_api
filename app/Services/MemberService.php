@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Interfaces\SponsorLogInterface;
 use App\Jobs\RegistrationOTP;
 
 use Illuminate\Support\Facades\Hash;
@@ -28,18 +29,20 @@ class MemberService extends UserService
 
     CONST ROLE = "member";
 
-    protected $interface, $countryInterface;
+    protected $interface, $countryInterface, $sponsorInterface;
     protected $otpService;
 
     public function __construct(
         MemberInterface $interface,
         RoleInterface $roleInterface,
         SysCountryInterface $countryInterface,
-        OtpService $otpService
+        OtpService $otpService,
+        SponsorLogInterface $sponsorLogInterface
     ) {
         parent::__construct($interface, $roleInterface);
         $this->countryInterface = $countryInterface;
         $this->otpService = $otpService;
+        $this->sponsorInterface = $sponsorLogInterface;
     }
 
     /**
@@ -82,9 +85,10 @@ class MemberService extends UserService
 
     /**
      * @param $id
+     * @param array $relations
      * @return array
      */
-    public function getDetails($id)
+    public function getDetails($id, array $relations = [])
     {
         $result = $this->interface->find($id);
         if ($result) {
@@ -223,5 +227,38 @@ class MemberService extends UserService
         }
 
         return $this->response(false, 'invalid_sponsor');
+    }
+
+    public function changeSponsor(string $username, string $new_sponsor)
+    {
+        $user = $this->interface->findBy('username', $username, );
+        if (!$user) {
+            return $this->response(false, 'invalid_user');
+        }
+
+        $old_sponsor = $user->sponsor_id;
+        $old_sponsor_username = $user->sponsor->username;
+        $new_upline = $this->interface->findBy('username', $new_sponsor);
+        if (!$new_upline) {
+            return $this->response(false, 'invalid_sponsor');
+        }
+
+        $user->parent_id = $new_upline['id'];
+        if ($user->save()) {
+            $sponsor_result = $this->sponsorInterface->create([
+                'user_id' => $user->id,
+                'sponsor_id_from' => $old_sponsor,
+                'sponsor_from' => $old_sponsor_username,
+                'sponsor_id_to' => $new_upline->id,
+                'sponsor_to' => $new_upline->username
+            ]);
+            if ($sponsor_result) {
+                return $this->response(true, 'record_saved_successfully');
+            }
+
+            return $this->response(false, 'failed_to_save');
+        }
+
+        return $this->response(false, 'failed_to_save');
     }
 }
