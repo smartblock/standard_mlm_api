@@ -127,7 +127,7 @@ class RoleController extends Controller
 
         Try {
             $inputs = $request->all();
-            $result = $this->roleService->store($inputs['parent_code'], $inputs['name'], $inputs['guard_name'], $inputs['seq_no']);
+            $result = $this->roleService->store($inputs['parent_code'], $inputs['name'], 'admin', $inputs['seq_no']);
 
             if ($result['status']) {
                 DB::commit();

@@ -27,7 +27,7 @@ class RolePostRequest extends FormRequest
             'code' => 'required|min:4|unique:roles,code',
             'name' => 'required|min:4',
             'seq_no' => 'required|integer',
-            'guard_name' => 'required|in:admin,member',
+//            'guard_name' => 'required|in:admin,member',
             'parent_code' => 'required|min:4'
         ];
     }
