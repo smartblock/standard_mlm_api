@@ -25,9 +25,9 @@ class RoleService extends BaseService
 
     public function tree(array $columns = ['*'], array $params = [], array $order = [], array $relations = [])
     {
-        if (isset($params['parent_code']) == 'developer') {
+        if (!isset($params['parent_code'])) {
             return $this->interface->all($columns, [], [
-                'root_code' => 'developer'
+                'root_code' => ''
             ], $order);
         }
 

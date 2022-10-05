@@ -32,11 +32,11 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'roles'], function () use ($router) {
-//        $router->get('groups', [\App\Http\Controllers\Admin\RoleController::class, 'all'])->name('role.all');
+            $router->get('group', [\App\Http\Controllers\Admin\RoleController::class, 'tree'])->name('role.all');
             $router->get('', [\App\Http\Controllers\Admin\RoleController::class, 'index'])->name('role.list');
             $router->post('', [\App\Http\Controllers\Admin\RoleController::class, 'save'])->name('role.post');
-            $router->get('{name}', [\App\Http\Controllers\Admin\RoleController::class, 'edit'])->name('role.get');
-            $router->put('{id}', [\App\Http\Controllers\Admin\RoleController::class, 'update'])->name('role.update');
+            $router->get('{code}', [\App\Http\Controllers\Admin\RoleController::class, 'edit'])->name('role.get');
+            $router->put('{code}', [\App\Http\Controllers\Admin\RoleController::class, 'update'])->name('role.update');
             $router->delete('{id}', [\App\Http\Controllers\Admin\RoleController::class, 'delete'])->name('role.delete');
         });
 

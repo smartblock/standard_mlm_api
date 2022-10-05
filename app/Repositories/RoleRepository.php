@@ -108,7 +108,11 @@ class RoleRepository extends BaseRepository implements RoleInterface
 
         if (!empty($params)) {
             if (isset($params['root_code'])) {
-                $query->where('code', $params['root_code']);
+                if (!empty($params['root_code'])) {
+                    $query->where('code', $params['root_code']);
+                } else {
+                    $query->whereNull('parent_id');
+                }
             }
 
             if (isset($params['parent_code'])) {

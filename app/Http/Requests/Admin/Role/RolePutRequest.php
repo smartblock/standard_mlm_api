@@ -26,7 +26,7 @@ class RolePutRequest extends FormRequest
         return [
             'name' => 'required|min:4',
             'seq_no' => 'required|integer',
-            'guard_name' => 'required|in:admin,member',
+//            'guard_name' => 'required|in:admin,member',
             'parent_code' => 'required|min:4'
 //            'status' => 'required|in:A,I',
         ];

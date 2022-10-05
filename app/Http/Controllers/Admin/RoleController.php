@@ -16,6 +16,7 @@ use App\Http\Requests\Admin\Role\RolePostRequest;
 use App\Http\Requests\Admin\Role\RolePutRequest;
 
 use App\Http\Resources\Admin\RoleResource;
+use App\Http\Resources\Admin\RoleTreeResource;
 
 use App\Services\RoleService;
 
@@ -99,9 +100,8 @@ class RoleController extends Controller
 
         Try {
             $params = [];
-
-            if ($request->filled('code')) {
-                $params['parent_code'] = $request->input('code');
+            if ($request->filled('parent_code')) {
+                $params['parent_code'] = $request->input('parent_code');
             }
 
             $result = $this->roleService->tree(['*'], $params, [
@@ -175,7 +175,7 @@ class RoleController extends Controller
                 $request->input('parent_code'),
                 $request->input('name'),
                 $request->input('seq_no'),
-                $request->input('guard_name'));
+                'admin');
 
             if ($result['status']) {
                 DB::commit();
