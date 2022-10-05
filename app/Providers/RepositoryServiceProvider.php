@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\AdminInterface;
+use App\Interfaces\AnnouncementDetailInterface;
 use App\Interfaces\AnnouncementInterface;
 use App\Interfaces\MemberInterface;
 use App\Interfaces\OneTimePasswordInterface;
@@ -26,6 +27,7 @@ use App\Interfaces\WalletSetupInterface;
 use App\Interfaces\WalletSummaryInterface;
 use App\Interfaces\WalletTransferInterface;
 use App\Repositories\AdminRepository;
+use App\Repositories\AnnouncementDetailRepository;
 use App\Repositories\AnnouncementRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\OneTimePasswordRepository;
@@ -91,6 +93,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(StockGoodReceiveItemInterface::class, StockGoodReceiveItemRepository::class);
 
         $this->app->bind(AnnouncementInterface::class, AnnouncementRepository::class);
+        $this->app->bind(AnnouncementDetailInterface::class, AnnouncementDetailRepository::class);
     }
 
     /**

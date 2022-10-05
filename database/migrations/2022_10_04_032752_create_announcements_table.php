@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('country_id')->nullable();
-            $table->string('code', 255);
+            $table->string('code', 255)->nullable();
+            $table->string('name', 255)->nullable();
             $table->string('avatar', 255)->nullable();
             $table->dateTime('date_start')->nullable();
             $table->dateTime('date_end')->nullable();

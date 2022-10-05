@@ -38,11 +38,12 @@ class BaseService
 
     /**
      * @param $id
+     * @param array $relations
      * @return array
      */
-    public function getDetails($id)
+    public function getDetails($id, array $relations = [])
     {
-        $result = $this->interface->find($id);
+        $result = $this->interface->findBy('id', $id, ['*'], $relations);
         if ($result) {
             return $this->response(true, 'success', $result);
         }

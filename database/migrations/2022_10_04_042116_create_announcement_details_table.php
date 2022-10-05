@@ -15,7 +15,20 @@ return new class extends Migration
     {
         Schema::create('announcement_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('announcement_id')->nullable();
+            $table->unsignedInteger('language_id')->nullable();
+            $table->string('title', 255);
+            $table->longText('description')->nullable();
+            $table->softDeletes();
+            $table->unsignedInteger('created_by')->nullable();
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->index([
+                'announcement_id',
+                'language_id',
+                'created_by',
+                'updated_by'
+            ], 'announcement_detail_index');
         });
     }
 

@@ -26,9 +26,8 @@ class AnnouncementPostRequest extends FormRequest
         return [
             'country_code' => 'sometimes',
             'code' => 'sometimes',
-            'name' => 'required|json',
-            'description' => 'sometimes',
-            'avatar' => 'required',
+            'content' => 'required|json',
+            'avatar' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'date_start' => 'sometimes|date_format:Y-m-d',
             'date_end' => 'sometimes',
             'seq_no' => 'required|integer|min:0',

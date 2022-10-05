@@ -101,6 +101,8 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'announcements'], function () use ($router) {
+            $router->get('', [\App\Http\Controllers\Admin\AnnouncementController::class, 'index'])->name('announcement.get');
+            $router->get('{id}', [\App\Http\Controllers\Admin\AnnouncementController::class, 'edit'])->name('announcement.edit');
             $router->post('', [\App\Http\Controllers\Admin\AnnouncementController::class, 'save'])->name('announcement.post');
         });
     });
