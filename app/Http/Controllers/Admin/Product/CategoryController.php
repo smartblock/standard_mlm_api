@@ -40,18 +40,18 @@ class CategoryController extends Controller
         Try {
             $result = $this->productCategoryService->store(
                 $request->input('parent'),
-                $request->input('category_code'),
+//                $request->input('category_code'),
                 json_decode($request->input('category_name'), true),
                 $request->input('status'),
                 $request->input('seq_no')
             );
             if ($result['status']) {
-                return $this->success($result['message'], 201);
+                return $this->success($result['message'], "", 201);
             }
 
             return $this->error($result['message'], 422);
         } Catch (\Throwable $exception) {
-            return $this->error();
+            return $this->error($exception);
         }
     }
 
@@ -71,20 +71,20 @@ class CategoryController extends Controller
     public function all(CategoryListRequest $request)
     {
         Try {
-            $parent = "";
-            if ($request->filled('parent')) {
-                $parent = $request->input('parent');
+            $params = [];
+            if ($request->filled('parent_code')) {
+                $params['parent_code'] = $request->input('parent_code');
             }
 
             $details = $this->productCategoryService->listAll([
                 'id', 'category_code', 'category_name', 'status', 'seq_no'
-            ], [], [], [
+            ], [], $params, [
                 'column' => 'seq_no',
                 'dir' => 'asc'
             ]);
             return $this->success('success', ProductCategoryResource::collection($details));
         } Catch (\Throwable $exception) {
-            return $this->error();
+            return $this->error($exception);
         }
     }
 
@@ -93,13 +93,19 @@ class CategoryController extends Controller
         $this->insertLog(self::ACTION_TYPE."_UPDATE", $request);
 
         Try {
+            $params = [];
+            if ($request->filled('seq_no')) {
+                $params['seq_no'] = $request->input('seq_no');
+            }
+
             $category_id = decrypt($id);
             $result = $this->productCategoryService->update(
                 $category_id,
-                $request->input('parent'),
-                $request->input('category_code'),
+//                $request->input('parent'),
+//                $request->input('category_code'),
                 json_decode($request->input('category_name'), true),
-                $request->input('status'));
+                $request->input('status'),
+                $params);
 
             if ($result['status']) {
                 return $this->success($result['message']);
@@ -107,7 +113,7 @@ class CategoryController extends Controller
 
             return $this->error($result['message'], 422);
         } Catch (\Throwable $exception) {
-            return $this->error();
+            return $this->error($exception);
         }
     }
 

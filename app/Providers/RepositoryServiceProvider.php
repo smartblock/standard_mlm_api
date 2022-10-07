@@ -7,6 +7,7 @@ use App\Interfaces\AnnouncementDetailInterface;
 use App\Interfaces\AnnouncementInterface;
 use App\Interfaces\MemberInterface;
 use App\Interfaces\OneTimePasswordInterface;
+use App\Interfaces\ProductCategoryDetailInterface;
 use App\Interfaces\ProductCategoryInterface;
 use App\Interfaces\ProductInterface;
 use App\Interfaces\ProductPackageItemInterface;
@@ -32,6 +33,7 @@ use App\Repositories\AnnouncementDetailRepository;
 use App\Repositories\AnnouncementRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\OneTimePasswordRepository;
+use App\Repositories\ProductCategoryDetailRepository;
 use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductPackageItemRepository;
 use App\Repositories\ProductRepository;
@@ -86,6 +88,7 @@ class RepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ProductInterface::class, ProductRepository::class);
         $this->app->bind(ProductCategoryInterface::class, ProductCategoryRepository::class);
+        $this->app->bind(ProductCategoryDetailInterface::class, ProductCategoryDetailRepository::class);
         $this->app->bind(ProductVariantInterface::class, ProductVariantRepository::class);
         $this->app->bind(ProductPackageItemInterface::class, ProductPackageItemRepository::class);
 

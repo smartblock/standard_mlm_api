@@ -41,18 +41,22 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
         $query = $this->model->with($relations);
 
         if (!empty($params)) {
-            if (isset($params['parent'])) {
-                if (!empty($params['parent'])) {
-                    $code = $params['parent'];
+            if (isset($params['parent_code'])) {
+                if (!empty($params['parent_code'])) {
+                    $code = $params['parent_code'];
                     $query->whereHas('parent', function ($q) use ($code) {
                         $q->where('category_code', $code);
                     });
                 } else {
                     $query->whereHas('parent', function ($q) {
-                        $q->where('category_code', "ROOT");
+                        $q->where('category_code', "Root");
                     });
                 }
             }
+        } else {
+            $query->whereHas('parent', function ($q) {
+                $q->where('category_code', "Root");
+            });
         }
 
         if ($lock) {

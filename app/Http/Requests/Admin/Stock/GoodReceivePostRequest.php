@@ -25,7 +25,7 @@ class GoodReceivePostRequest extends FormRequest
     {
         return [
             'supplier_code' => 'required|min:3',
-            'warehouse' => 'sometimes',
+            'store_code' => 'sometimes',
             'date' => 'required|date_format:Y-m-d',
             'ref_no' => 'sometimes',
             'remark' => 'sometimes',

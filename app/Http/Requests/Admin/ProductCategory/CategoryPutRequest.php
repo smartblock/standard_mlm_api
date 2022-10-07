@@ -24,8 +24,8 @@ class CategoryPutRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent' => 'required',
-            'category_code' => 'required|alpha_dash|unique:product_categories,id,'.decrypt($this->id).',category_code|min:3',
+//            'parent' => 'required',
+//            'category_code' => 'required|alpha_dash|unique:product_categories,id,'.decrypt($this->id).',category_code|min:3',
             'category_name' => 'required|json',
             'seq_no' => 'required|integer',
             'status' => 'required|in:A,I'

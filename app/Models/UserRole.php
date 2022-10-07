@@ -11,6 +11,8 @@ class UserRole extends Role
 {
     use HasFactory, SoftDeletes;
 
+    public $guard_name = "api";
+
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id', 'id')

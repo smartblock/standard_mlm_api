@@ -14,5 +14,5 @@ class Admin extends User
 
     protected $guarded = [];
 
-    protected $guard_name = "api";
+    protected $guard_name = "admin";
 }

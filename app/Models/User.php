@@ -55,8 +55,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $guard_name = "api";
-
     public function country()
     {
         return $this->belongsTo(SysCountry::class, 'country_id', 'id');

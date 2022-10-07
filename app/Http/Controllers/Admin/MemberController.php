@@ -68,7 +68,7 @@ class MemberController extends Controller
                 $exception->getFile(),
                 $exception->getLine()
             ]);
-            return $this->error();
+            return $this->error($exception);
         }
     }
 

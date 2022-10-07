@@ -36,11 +36,15 @@ class GoodAdjustmentController extends Controller
         Try {
             $params = [];
             if ($request->filled('ref_no')) {
-                $params['ref_no'] = $request->filled('ref_no');
+                $params['ref_no'] = $request->input('ref_no');
             }
 
             if ($request->filled('reason')) {
-                $params['reason'] = $request->filled('reason');
+                $params['reason'] = $request->input('reason');
+            }
+
+            if ($request->filled('stock_code')) {
+                $params['stock_code'] = $request->input('stock_code');
             }
 
             $result = $this->adjustmentService->store(
@@ -56,7 +60,7 @@ class GoodAdjustmentController extends Controller
 
             return $this->error($result['message'], 422);
         } Catch (\Throwable $exception) {
-            return $this->error();
+            return $this->error($exception);
         }
     }
 }

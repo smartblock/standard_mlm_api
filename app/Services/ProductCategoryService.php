@@ -8,6 +8,8 @@
 
 namespace App\Services;
 
+use App\Interfaces\ProductCategoryDetailInterface;
+use App\Interfaces\SysLanguageInterface;
 use App\Traits\ResponseAPI;
 
 use App\Interfaces\ProductCategoryInterface;
@@ -18,11 +20,47 @@ class ProductCategoryService extends BaseService
 {
     use ResponseAPI;
 
-    public function __construct(ProductCategoryInterface $interface)
+    public $defaultLanguage;
+    protected $detailInterface, $langInterface;
+
+
+    public function __construct(
+        ProductCategoryInterface $interface,
+        ProductCategoryDetailInterface $detailInterface,
+        SysLanguageInterface $langInterface
+    )
     {
         parent::__construct($interface);
+        $this->langInterface = $langInterface;
+        $this->detailInterface = $detailInterface;
+        $this->defaultLanguage = $this->langInterface->getDefaultLanguage()['code'];
     }
 
+    /**
+     * @param array $category_name
+     * @return string
+     */
+    public function getDefaultName(array $category_name)
+    {
+        $name = "";
+        foreach ($category_name as $key => $value) {
+            if ($this->defaultLanguage == $value['lang']) {
+                $name = $value['name'];
+            }
+        }
+
+        return $name;
+    }
+
+    public function listAll(array $columns = ['*'], array $relations = [], array $params = [], array $orders = [], string $lock = null)
+    {
+        return $this->interface->all($columns, $relations, $params, $orders, $lock);
+    }
+
+    /**
+     * @param string $parent
+     * @return array
+     */
     public function getDetailByParent(string $parent)
     {
         $child = $this->interface->all(['*'], ['parent'], [
@@ -65,29 +103,38 @@ class ProductCategoryService extends BaseService
 
     /**
      * @param string $parent
-     * @param string $category_code
      * @param array $category_name
      * @param string $status
      * @param int $seq_no
      * @return array
      */
-    public function store(string $parent, string $category_code, array $category_name, string $status, int $seq_no)
+    public function store(string $parent, array $category_name, string $status, int $seq_no)
     {
         $parent_category = $this->interface->findBy('category_code', $parent);
         if (!$parent_category) {
             return $this->response(false, 'invalid_parent');
         }
 
-        $code = strtolower($category_code);
+        $name = $this->getDefaultName($category_name);
+
+        $code = removeSpecialCharacters(strtolower($name));
         $result = $this->interface->create([
             'parent_id' => $parent_category['id'],
             'category_code' => $code,
-            'category_name' => $category_code,
+            'category_name' => $name,
             'status' => $status,
             'seq_no' => $seq_no
         ]);
         if ($result) {
-            $this->insertNameTranslation($code, $category_name);
+            foreach ($category_name as $key => $value) {
+                $lang = $this->langInterface->findBy('code', $value['lang']);
+                $this->detailInterface->create([
+                    'category_id' => $result['id'],
+                    'language_id' => $lang['id'],
+                    'name' => $value['name']
+                ]);
+            }
+
             return $this->response(true, 'record_saved_successfully');
         }
 
@@ -96,33 +143,53 @@ class ProductCategoryService extends BaseService
 
     /**
      * @param int $id
-     * @param string $name
-     * @param int $seq_no
+     * @param string $category_code
+     * @param array $category_name
+     * @param string $status
+     * @param array $options
      * @return array
      */
-    public function update(int $id, string $parent_code, string $category_code, array $category_name, string $status, array $options = [])
+    public function update(int $id, array $category_name, string $status, array $options = [])
     {
-        $parent = $this->interface->findBy('category_code', $parent_code);
-        if (!$parent) {
-            return $this->response(false, 'invalid_parent');
-        }
-
         $result = $this->interface->findBy('id', $id, ['*'], [], true);
         if (!$result) {
             return $this->response(false, 'invalid_record');
         }
 
-        $result['category_code'] = $category_code;
-        $result['category_name'] = $category_code;
-        $result['seq_no'] = $options['seq_no'] ?? null;
-//        $result['parent_id'] = $parent['id'];
+        $category = $this->interface->find($id);
+        $name = $this->getDefaultName($category_name);
 
-        if ($result->save()) {
-            $this->insertNameTranslation(strtolower($category_code), $category_name);
+        $code = removeSpecialCharacters(strtolower($name));
+        $category['category_code'] = $code;
+        $category['category_name'] = $name;
+        $category['seq_no'] = $options['seq_no'] ?? null;
+        $category['status'] = $status;
+
+        if ($category->save()) {
+            foreach ($category_name as $key => $value) {
+                $lang = $this->langInterface->findBy('code', $value['lang']);
+                $this->detailInterface->updateByLanguageID($id, $lang['id'], [
+                    'name' => $value['name']
+                ]);
+            }
+
             return $this->response(true, 'record_updated_successfully');
         }
 
         return $this->response(false, 'failed_to_update');
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function delete(int $id)
+    {
+        $result = $this->interface->deleteById($id);
+        if ($result) {
+            return $this->response(true, 'record_deleted_successfully');
+        }
+
+        return $this->response(false, 'failed_to_delete');
+    }
 }

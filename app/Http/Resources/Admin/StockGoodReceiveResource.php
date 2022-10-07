@@ -21,6 +21,7 @@ class StockGoodReceiveResource extends JsonResource
             'doc_date' => $this->doc_date,
             'trans_type' => $this->trans_type,
             'status' => $this->status,
+            'ref_no' => $this->ref_no ?? "",
             'remark' => $this->remark ?? "",
             'created_at' => $this->created_at
         ];

@@ -41,10 +41,21 @@ class StockAdjustmentService extends GoodReceiveService
             }
         }
 
+        $location = "";
+        if ($options['stock_code']) {
+            $location = $this->stockInterface->findBy('stock_code', $options['stock_code']);
+            if (!$location) {
+                return $this->response(false, 'invalid_stock');
+            }
+        }
+
+        $doc_no = $this->docService->getRunningNo("GA");
+
         $stock_result = $this->interface->create([
-            'doc_no' => '',
+            'doc_no' => $doc_no['data']['doc_type'].sprintf("%0{$doc_no['data']['doc_length']}d", $doc_no['data']['start_no']),
             'doc_date' => $doc_date,
             'trans_type' => $trans_type,
+            'stock_id' => $location['id'],
             'supplier_id' => $supplier['id'] ?? null,
             'status' => $status,
             'reason' => $options['reason'] ?? null,

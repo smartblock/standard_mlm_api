@@ -12,7 +12,8 @@ class BaseService
 
     protected $interface;
 
-    public function __construct(EloquentRepositoryInterface $interface)
+    public function __construct(
+        EloquentRepositoryInterface $interface)
     {
         $this->interface = $interface;
     }

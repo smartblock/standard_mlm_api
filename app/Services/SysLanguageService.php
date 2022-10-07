@@ -74,4 +74,9 @@ class SysLanguageService extends BaseService
 
         return $this->response(false, 'failed_to_update');
     }
+
+    public function getDefaultLanguage()
+    {
+        return $this->interface->getDefaultLanguage();
+    }
 }

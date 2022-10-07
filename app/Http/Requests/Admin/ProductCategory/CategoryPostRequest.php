@@ -25,7 +25,7 @@ class CategoryPostRequest extends FormRequest
     {
         return [
             'parent' => 'required',
-            'category_code' => 'required|alpha_dash|unique:product_categories,category_code|min:3',
+//            'category_code' => 'required|alpha_dash|unique:product_categories,category_code|min:3',
             'category_name' => 'required|json',
             'seq_no' => 'required|integer',
             'status' => 'required|in:A,I'

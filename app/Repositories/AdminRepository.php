@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Interfaces\AdminInterface;
 
-use App\Models\User;
+use App\Models\Admin;
 
 class AdminRepository extends BaseRepository implements AdminInterface
 {
@@ -20,7 +20,7 @@ class AdminRepository extends BaseRepository implements AdminInterface
      *
      * @param Model $model
      */
-    public function __construct(User $model)
+    public function __construct(Admin $model)
     {
         $this->model = $model;
     }

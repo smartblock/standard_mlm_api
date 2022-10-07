@@ -89,4 +89,10 @@ class SysLanguageRepository extends BaseRepository implements SysLanguageInterfa
             'data' => $data->get()
         ];
     }
+
+    public function getDefaultLanguage()
+    {
+        return $this->model->where('is_default', 1)
+            ->first();
+    }
 }

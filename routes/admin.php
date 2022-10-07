@@ -79,7 +79,7 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'product/categories'], function () use ($router) {
-            $router->get('all', [\App\Http\Controllers\Admin\Product\CategoryController::class, 'all'])->name('product.category.get');
+            $router->get('tree', [\App\Http\Controllers\Admin\Product\CategoryController::class, 'all'])->name('product.category.get');
             $router->post('', [\App\Http\Controllers\Admin\Product\CategoryController::class, 'save'])->name('product.category.post');
             $router->get('{id}', [\App\Http\Controllers\Admin\Product\CategoryController::class, 'edit'])->name('product.category.get');
             $router->put('{id}', [\App\Http\Controllers\Admin\Product\CategoryController::class, 'update'])->name('product.category.put');
