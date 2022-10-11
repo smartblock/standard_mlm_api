@@ -87,6 +87,8 @@ $router->group(['prefix' => 'admin'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'stock'], function () use ($router) {
+            $router->get('locations', [\App\Http\Controllers\Admin\Stock\StockLocationController::class, 'all']);
+
             $router->group(['prefix' => 'suppliers'], function () use ($router) {
                 $router->get('', [\App\Http\Controllers\Admin\Stock\SupplierController::class, 'index'])->name('stock.supplier.get');
                 $router->get('{id}', [\App\Http\Controllers\Admin\Stock\SupplierController::class, 'edit'])->name('stock.supplier.edit');

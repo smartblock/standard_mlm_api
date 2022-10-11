@@ -43,7 +43,7 @@ class SupplierController extends Controller
 
             return $this->responseTable(StockSupplierResource::collection($result['data']), $result['total'], $request->input('page'), $result['length']);
         } Catch (\Throwable $exception) {
-            return $this->error();
+            return $this->error($exception);
         }
     }
 

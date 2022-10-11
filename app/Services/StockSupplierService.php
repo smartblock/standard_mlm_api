@@ -10,25 +10,40 @@ namespace App\Services;
 
 use App\Traits\ResponseAPI;
 
+use App\Interfaces\StockLocationInterface;
 use App\Interfaces\StockSupplierInterface;
 
-class StockSupplierService extends BaseService
+class StockSupplierService extends StockService
 {
     use ResponseAPI;
 
-    public function __construct(StockSupplierInterface $interface)
+    public function __construct(StockLocationInterface $interface, StockSupplierInterface $stockSupplierInterface)
     {
-        parent::__construct($interface);
+        parent::__construct($interface, $stockSupplierInterface);
+    }
+
+    public function all(int $page, array $columns = ['*'], array $params = [], array $order = [], array $relations = [])
+    {
+        if (!empty($params['limit'])) {
+            $this->stockSupplierInterface->setPerPage($params['limit']);
+        }
+
+        $limit = $this->interface->perPage();
+        $start = $page == 1 ? 0 : --$page * $limit;
+
+        $result = $this->stockSupplierInterface->pagination($start, $limit, $columns, $params, $order, $relations);
+
+        return $this->responsePaginate($limit, $result);
     }
 
     public function store(string $code, string $name, int $seq_no, string $status)
     {
-        $supplier = $this->interface->findBy('code', $code);
+        $supplier = $this->stockSupplierInterface->findBy('code', $code);
         if ($supplier) {
             return $this->response(false, 'data_already_exist');
         }
 
-        $result = $this->interface->create([
+        $result = $this->stockSupplierInterface->create([
             'code' => $code,
             'name' => $name,
             'seq_no' => $seq_no,
@@ -43,7 +58,7 @@ class StockSupplierService extends BaseService
 
     public function update(int $id, string $code, string $name, int $seq_no, string $status)
     {
-        $supplier = $this->interface->find($id);
+        $supplier = $this->stockSupplierInterface->find($id);
         if (!$supplier) {
             return $this->response(false, 'invalid_supplier');
         }
