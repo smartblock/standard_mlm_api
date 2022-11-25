@@ -7,6 +7,7 @@ use App\Interfaces\AnnouncementDetailInterface;
 use App\Interfaces\AnnouncementInterface;
 use App\Interfaces\MemberInterface;
 use App\Interfaces\OneTimePasswordInterface;
+use App\Interfaces\PasswordResetInterface;
 use App\Interfaces\ProductCategoryDetailInterface;
 use App\Interfaces\ProductCategoryInterface;
 use App\Interfaces\ProductInterface;
@@ -34,6 +35,7 @@ use App\Repositories\AnnouncementDetailRepository;
 use App\Repositories\AnnouncementRepository;
 use App\Repositories\MemberRepository;
 use App\Repositories\OneTimePasswordRepository;
+use App\Repositories\PasswordResetRepository;
 use App\Repositories\ProductCategoryDetailRepository;
 use App\Repositories\ProductCategoryRepository;
 use App\Repositories\ProductPackageItemRepository;
@@ -75,6 +77,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(AdminInterface::class, AdminRepository::class);
         $this->app->bind(MemberInterface::class, MemberRepository::class);
         $this->app->bind(UserProfileInterface::class, UserProfileRepository::class);
+        $this->app->bind(PasswordResetInterface::class, PasswordResetRepository::class);
 
         $this->app->bind(OneTimePasswordInterface::class, OneTimePasswordRepository::class);
 
