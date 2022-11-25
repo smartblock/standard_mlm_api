@@ -8,8 +8,8 @@
 
 namespace App\Services\Auth;
 
-use App\Services\OtpService;
 use DB;
+use Carbon\Carbon;
 use Auth;
 use Hash;
 
@@ -17,6 +17,8 @@ use App\Traits\ResponseAPI;
 
 use App\Interfaces\UserInterface;
 use App\Interfaces\RoleInterface;
+
+use App\Services\OtpService;
 
 class AuthMemberService extends AuthService
 {
@@ -53,7 +55,7 @@ class AuthMemberService extends AuthService
             return $this->response(false, 'invalid_role_access');
         }
 
-        if (empty($user->verify_emailt_at)) {
+        if (empty($user->email_verified_at)) {
             $otp = $this->otpService->sendOtp($user['email']);
             return $this->response(false, 'please_verify_email_first');
         }

@@ -10,4 +10,9 @@ namespace App\Interfaces;
 
 interface MemberInterface extends UserInterface
 {
+    /**
+     * @param string $email
+     * @return mixed
+     */
+    public function validateEmail(string $email);
 }

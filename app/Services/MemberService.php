@@ -272,4 +272,78 @@ class MemberService extends UserService
 
         return $this->response(false, 'failed_to_save');
     }
+
+    /**
+     * Update Profile
+     *
+     * @param string $type
+     * @param int $user_id
+     * @param string $password
+     * @param string $email
+     * @return array
+     */
+    public function updateProfile(string $type, int $user_id, string $password, string $update_field)
+    {
+        $user = $this->interface->findBy('id', $user_id, ['*'], ['profile']);
+        if (!$user) {
+            return $this->response(false, 'invalid_user');
+        }
+
+        $action_type = strtolower($type);
+        if (!Hash::check($password, $user->password)) {
+            return $this->response(false, 'invalid_password');
+        }
+
+        switch ($action_type) {
+            case 'email':
+                $validate = $this->interface->validateEmail($update_field);
+                if ($validate) {
+                    return $this->response(false, 'already_exist');
+                }
+
+                $user->email = $update_field;
+                if ($user->save()) {
+                    return $this->response(true, 'updated_successfully');
+                }
+
+                return $this->response(false, 'failed_to_update_email');
+                break;
+            case 'mobile':
+                $user->profile->mobile_no = $update_field;
+                if ($user->profile->save()) {
+                    return $this->response(true, 'updated_successfully');
+                }
+
+                return $this->response(false, 'failed_to_update_email');
+                break;
+        }
+
+        return $this->response(false, 'invalid_password');
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $current_password
+     * @param string $new_password
+     * @param string $password_confirmation
+     * @return array
+     */
+    public function changePassword(int $user_id, string $current_password, string $new_password, string $password_confirmation)
+    {
+        $user = $this->interface->findBy('id', $user_id, ['*']);
+        if (!Hash::check($current_password, $user->password)) {
+            return $this->response(false, 'invalid_current_password');
+        }
+
+        if ($new_password != $password_confirmation) {
+            return $this->response(false, 'invalid_password_confirmation');
+        }
+
+        $user->password = bcrypt($new_password);
+        if ($user->save()) {
+            return $this->response(true, 'password_updated_successfully');
+        }
+
+        return $this->response(false, 'failed_to_update_password');
+    }
 }

@@ -96,4 +96,10 @@ class MemberRepository extends BaseRepository implements MemberInterface
     {
         $this->model->setPerPage($length);
     }
+
+    public function validateEmail(string $email)
+    {
+        return $this->model->where('email', $email)
+            ->first();
+    }
 }

@@ -22,6 +22,8 @@ $router->group(['prefix' => 'member'], function () use ($router) {
         $router->post('register', [\App\Http\Controllers\Member\Auth\RegisterController::class, 'save']);
         $router->post('login', [\App\Http\Controllers\Member\Auth\LoginController::class, 'login']);
         $router->post('forgotPassword', [\App\Http\Controllers\Member\Auth\ForgotPasswordController::class, 'save']);
+        $router->post('password/reset', [\App\Http\Controllers\Member\Auth\ForgotPasswordController::class, 'postResetPassword']);
+
         $router->group(['prefix' => 'otp'], function () use ($router) {
             $router->post('', [\App\Http\Controllers\Member\OtpController::class, 'save']);
             $router->get('{email}/{code}', [\App\Http\Controllers\Member\OtpController::class, 'validateOTP']);
@@ -36,6 +38,8 @@ $router->group(['prefix' => 'member'], function () use ($router) {
     });
 
     $router->group(['middleware' => ['auth:sanctum', 'abilities:role-member']], function () use ($router) {
-
+        $router->get('profile', [\App\Http\Controllers\Member\MemberController::class, 'getProfile']);
+        $router->post('profile/password', [\App\Http\Controllers\Member\MemberController::class, 'changePassword']);
+        $router->post('profile', [\App\Http\Controllers\Member\MemberController::class, 'updateProfile']);
     });
 });
