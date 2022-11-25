@@ -35,8 +35,11 @@ class RegisterController extends Controller
 
         Try {
             $inputs = $request->all();
-            $result = $this->memberService->store($inputs['country_code'], $inputs['sponsor'], $inputs['username'], $inputs['password'], $inputs['email'], [
-                'name' => $inputs['name']
+            $result = $this->memberService->store($inputs['country_code'], $inputs['sponsor'], $inputs['identity_no'], $inputs['password'], $inputs['email'], [
+                'name' => $inputs['name'],
+                'mobile_no' => $inputs['mobile_no'],
+                'gender' => $inputs['gender'],
+                'dob' => $inputs['dob']
             ]);
 
             if ($result['status']) {
@@ -47,7 +50,6 @@ class RegisterController extends Controller
             DB::rollback();
             return $this->error($result['message'], 400);
         } Catch (\Throwable $exception) {
-            DB::rollback();
             return $this->error($exception);
         }
     }

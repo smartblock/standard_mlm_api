@@ -17,13 +17,15 @@ class StockGoodReceiveResource extends JsonResource
         return [
             'id' => encrypt($this->id),
             'doc_no' => $this->doc_no,
-            'stock_code' => $this->stock->stock_name ?? "",
+            'stock_code' => $this->stock->stock_code ?? "",
+            'stock_name' => $this->stock->stock_name ?? "",
             'doc_date' => $this->doc_date,
             'trans_type' => $this->trans_type,
             'status' => $this->status,
             'ref_no' => $this->ref_no ?? "",
             'remark' => $this->remark ?? "",
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+            'created_by' => $this->createdBy->name
         ];
     }
 }

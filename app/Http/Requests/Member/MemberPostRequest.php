@@ -27,14 +27,15 @@ class MemberPostRequest extends FormRequest
             'sponsor' => 'required|min:3',
             'country_code' => 'required|min:2',
 //            'username' => 'required|alpha_dash|min:3|max:25|unique:users,username,'.$this->id,
-            'username' => 'required|alpha_dash|min:3|max:25',
+//            'username' => 'required|alpha_dash|min:3|max:25',
             'email' => 'required|email|unique:users,email',
             'name' => 'required|min:3|max:100',
             'identity_no' => 'required',
+            'gender' => 'required|in:F,M,f,m',
             'dob' => 'required|date_format:Y-m-d',
             'mobile_no' => 'required',
             'password' => 'required|min:8|confirmed|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
-            'password_confirmation' => 'required|min:8'
+            'password_confirmation' => 'required|min:8',
         ];
     }
 }

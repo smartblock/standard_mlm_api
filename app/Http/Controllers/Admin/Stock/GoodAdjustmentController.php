@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin\Stock;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Stock\GoodAdjustmentListRequest;
 use App\Http\Requests\Admin\Stock\GoodAdjustmentPostRequest;
+use App\Http\Resources\Admin\StockGoodReceiveResource;
 use App\Interfaces\RequestLogInterface;
 use App\Services\StockAdjustmentService;
 use App\Traits\ResponseAPI;
@@ -24,9 +26,19 @@ class GoodAdjustmentController extends Controller
         $this->adjustmentService = $adjustmentService;
     }
 
-    public function index()
+    public function index(GoodAdjustmentListRequest $request)
     {
+        Try {
+            $params = [];
+            $result = $this->adjustmentService->all($request->input('page'), ['*'], $params, [
+                'column' => 'created_at',
+                'dir' => 'desc'
+            ], ['stock', 'createdBy', 'updatedBy']);
 
+            return $this->responseTable(StockGoodReceiveResource::collection($result['data']), $result['total'], $request->input('page'), $result['length']);
+        } Catch (\Throwable $exception) {
+            return $this->error($exception);
+        }
     }
 
     public function save(GoodAdjustmentPostRequest $request)

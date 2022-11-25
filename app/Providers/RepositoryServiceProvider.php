@@ -24,6 +24,7 @@ use App\Interfaces\SysCountryInterface;
 use App\Interfaces\SysDocNoInterface;
 use App\Interfaces\SysLanguageInterface;
 use App\Interfaces\UserInterface;
+use App\Interfaces\UserProfileInterface;
 use App\Interfaces\WalletDetailInterface;
 use App\Interfaces\WalletSetupInterface;
 use App\Interfaces\WalletSummaryInterface;
@@ -49,6 +50,7 @@ use App\Repositories\StockSupplierRepository;
 use App\Repositories\SysCountryRepository;
 use App\Repositories\SysDocNoRepository;
 use App\Repositories\SysLanguageRepository;
+use App\Repositories\UserProfileRepository;
 use App\Repositories\UserRepository;
 
 use App\Repositories\WalletDetailRepository;
@@ -72,6 +74,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(AdminInterface::class, AdminRepository::class);
         $this->app->bind(MemberInterface::class, MemberRepository::class);
+        $this->app->bind(UserProfileInterface::class, UserProfileRepository::class);
 
         $this->app->bind(OneTimePasswordInterface::class, OneTimePasswordRepository::class);
 

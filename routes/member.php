@@ -20,6 +20,7 @@ $router->group(['prefix' => 'member'], function () use ($router) {
 
     $router->group(['prefix' => 'register'], function () use ($router) {
         $router->post('', [\App\Http\Controllers\Member\Auth\RegisterController::class, 'save'])->name('member.register.post');
+
         $router->group(['prefix' => 'otp'], function () use ($router) {
             $router->post('', [\App\Http\Controllers\Member\OtpController::class, 'save'])->name('member.register.otp.post');
             $router->get('{email}/{code}', [\App\Http\Controllers\Member\OtpController::class, 'validateOTP'])->name('member.register.otp.get');

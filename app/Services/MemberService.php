@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Interfaces\SponsorLogInterface;
+use App\Interfaces\UserProfileInterface;
 use App\Jobs\RegistrationOTP;
 
 use Illuminate\Support\Facades\Hash;
@@ -29,11 +30,12 @@ class MemberService extends UserService
 
     CONST ROLE = "member";
 
-    protected $interface, $countryInterface, $sponsorInterface;
+    protected $interface, $profileInterface, $countryInterface, $sponsorInterface;
     protected $otpService;
 
     public function __construct(
         MemberInterface $interface,
+        UserProfileInterface $profileInterface,
         RoleInterface $roleInterface,
         SysCountryInterface $countryInterface,
         OtpService $otpService,
@@ -43,6 +45,7 @@ class MemberService extends UserService
         $this->countryInterface = $countryInterface;
         $this->otpService = $otpService;
         $this->sponsorInterface = $sponsorLogInterface;
+        $this->profileInterface = $profileInterface;
     }
 
     /**
@@ -135,6 +138,14 @@ class MemberService extends UserService
         ]);
 
         if ($result) {
+            $this->profileInterface->create([
+                'user_id' => $result['id'],
+                'ic_no' => $username,
+                'gender' => strtoupper($options['gender']),
+                'date_of_birth' => $options['dob'],
+                'mobile_no' => $options['mobile_no']
+            ]);
+
             $role = $this->roleInterface->findBy('code', self::ROLE, ['*']);
             if (!$role) {
                 return $this->response(false, 'invalid_role');

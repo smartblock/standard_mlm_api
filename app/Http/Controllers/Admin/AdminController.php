@@ -39,9 +39,7 @@ class AdminController extends Controller
         $this->insertLog("ADMIN_LIST", $request);
 
         Try {
-            $result = $this->adminService->all($request->input('page'), ['*'], [
-                'role' => 'admin'
-            ]);
+            $result = $this->adminService->all($request->input('page'), ['*'], []);
 
             return $this->responseTable(AdminResource::collection($result['data']), $result['total'], $request->input('page'), $result['length']);
         } Catch (\Throwable $exception) {
