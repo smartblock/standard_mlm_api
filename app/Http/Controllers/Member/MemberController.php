@@ -137,6 +137,7 @@ class MemberController extends Controller
                     'code' => 'email_update',
                     'label' => trans('email_update'),
                     'time' => $date_now,
+                    'avatar' => '',
                     'value_label' => trans('new_email'),
                     'value' => Auth::user()->email
                 ],
@@ -144,6 +145,7 @@ class MemberController extends Controller
                     'code' => 'phone_update',
                     'label' => trans('phone_update'),
                     'time' => $date_now,
+                    'avatar' => '',
                     'value_label' => trans('new_phone_no'),
                     'value' => Auth::user()->profile->mobile_no
                 ],
@@ -151,6 +153,7 @@ class MemberController extends Controller
                     'code' => 'password_reset_update',
                     'label' => trans('password_reset_update'),
                     'time' => $date_now,
+                    'avatar' => '',
                     'value_label' => trans('new_security_pin'),
                     'value' => Auth::user()->password
                 ],
@@ -158,6 +161,7 @@ class MemberController extends Controller
                     'code' => 'security_pin_update',
                     'label' => trans('security_pin_update'),
                     'time' => $date_now,
+                    'avatar' => '',
                     'value' => Auth::user()->password
                 ]
             ]);
