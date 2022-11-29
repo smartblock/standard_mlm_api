@@ -35,6 +35,11 @@ class MemberController extends Controller
         $this->memberService = $memberService;
     }
 
+    /**
+     * Get profile details
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getProfile()
     {
         Try {
@@ -46,6 +51,12 @@ class MemberController extends Controller
         }
     }
 
+    /**
+     * Update profile details
+     *
+     * @param ProfilePostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateProfile(ProfilePostRequest $request)
     {
         Try {
@@ -84,6 +95,12 @@ class MemberController extends Controller
         }
     }
 
+    /**
+     * Change password
+     *
+     * @param UpdatePasswordPostRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changePassword(UpdatePasswordPostRequest $request)
     {
         Try {

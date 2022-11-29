@@ -38,8 +38,14 @@ $router->group(['prefix' => 'member'], function () use ($router) {
     });
 
     $router->group(['middleware' => ['auth:sanctum', 'abilities:role-member']], function () use ($router) {
-        $router->get('profile', [\App\Http\Controllers\Member\MemberController::class, 'getProfile']);
-        $router->post('profile/password', [\App\Http\Controllers\Member\MemberController::class, 'changePassword']);
-        $router->post('profile', [\App\Http\Controllers\Member\MemberController::class, 'updateProfile']);
+        $router->group(['prefix' => 'profile'], function () use ($router) {
+            $router->get('', [\App\Http\Controllers\Member\MemberController::class, 'getProfile']);
+            $router->post('', [\App\Http\Controllers\Member\MemberController::class, 'updateProfile']);
+            $router->post('password', [\App\Http\Controllers\Member\MemberController::class, 'changePassword']);
+        });
+
+        $router->group(['prefix' => 'addresses'], function () use ($router) {
+            $router->get('', [\App\Http\Controllers\Member\MemberController::class, 'getAddresses']);
+        });
     });
 });
