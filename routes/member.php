@@ -42,6 +42,8 @@ $router->group(['prefix' => 'member'], function () use ($router) {
             $router->get('', [\App\Http\Controllers\Member\MemberController::class, 'getProfile']);
             $router->post('', [\App\Http\Controllers\Member\MemberController::class, 'updateProfile']);
             $router->post('password', [\App\Http\Controllers\Member\MemberController::class, 'changePassword']);
+
+            $router->get('activities', [\App\Http\Controllers\Member\MemberController::class, 'getActivityLog']);
         });
 
         $router->group(['prefix' => 'addresses'], function () use ($router) {

@@ -8,6 +8,7 @@ use App\Http\Requests\Member\Profile\ProfilePostRequest;
 use App\Http\Requests\Member\Profile\UpdatePasswordPostRequest;
 use App\Traits\ResponseAPI;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -123,6 +124,44 @@ class MemberController extends Controller
                 $exception->getFile(),
                 $exception->getLine()
             ]);
+            return $this->error();
+        }
+    }
+
+    public function getActivityLog()
+    {
+        Try {
+            $date_now = Carbon::now();
+            return $this->success('success', [
+                [
+                    'code' => 'email_update',
+                    'label' => trans('email_update'),
+                    'time' => $date_now,
+                    'value_label' => trans('new_email'),
+                    'value' => Auth::user()->email
+                ],
+                [
+                    'code' => 'phone_update',
+                    'label' => trans('phone_update'),
+                    'time' => $date_now,
+                    'value_label' => trans('new_phone_no'),
+                    'value' => Auth::user()->profile->mobile_no
+                ],
+                [
+                    'code' => 'password_reset_update',
+                    'label' => trans('password_reset_update'),
+                    'time' => $date_now,
+                    'value_label' => trans('new_security_pin'),
+                    'value' => Auth::user()->password
+                ],
+                [
+                    'code' => 'security_pin_update',
+                    'label' => trans('security_pin_update'),
+                    'time' => $date_now,
+                    'value' => Auth::user()->password
+                ]
+            ]);
+        } Catch (\Throwable $exception) {
             return $this->error();
         }
     }
