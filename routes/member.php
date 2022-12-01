@@ -47,7 +47,12 @@ $router->group(['prefix' => 'member'], function () use ($router) {
         });
 
         $router->group(['prefix' => 'addresses'], function () use ($router) {
-            $router->get('', [\App\Http\Controllers\Member\MemberController::class, 'getAddresses']);
+            $router->get('', [\App\Http\Controllers\Member\MemberAddressController::class, 'getAddresses']);
+            $router->post('', [\App\Http\Controllers\Member\MemberAddressController::class, 'save']);
+            $router->delete('{id}', [\App\Http\Controllers\Member\MemberAddressController::class, 'delete']);
+            $router->get('{id}', [\App\Http\Controllers\Member\MemberAddressController::class, 'edit']);
         });
+
+        $router->get('announcements', [\App\Http\Controllers\Member\AnnouncementController::class, 'index']);
     });
 });

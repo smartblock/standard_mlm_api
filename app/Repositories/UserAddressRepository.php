@@ -63,4 +63,26 @@ class UserAddressRepository extends BaseRepository implements UserAddressInterfa
             'data' => $data->get()
         ];
     }
+
+    /**
+     * @param int $user_id
+     * @param string $address_type
+     * @return mixed
+     */
+    public function removeShippingStatus(int $user_id, string $address_type)
+    {
+        $query = $this->model->where('user_id', $user_id);
+
+        if ($address_type == 'SHIPPING') {
+            return $query->where('is_default_shipping', 1)
+                ->update([
+                    'is_default_shipping' => 0
+                ]);
+        } else {
+            return $query->where('is_default_billing', 1)
+                ->update([
+                    'is_default_billing' => 0
+                ]);
+        }
+    }
 }

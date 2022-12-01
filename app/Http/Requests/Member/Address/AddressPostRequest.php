@@ -13,7 +13,7 @@ class AddressPostRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,17 @@ class AddressPostRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'label' => 'required|min:2',
+            'recipient_name' => 'required',
+            'email' => 'required|email',
+            'country_code' => 'required',
+            'mobile_no' => 'required',
+            'address' => 'required|min:3',
+            'city' => 'sometimes',
+            'postcode' => 'required',
+            'state' => 'sometimes',
+            'is_default_shipping_address' => 'required|boolean',
+            'is_default_billing_address' => 'required|boolean'
         ];
     }
 }

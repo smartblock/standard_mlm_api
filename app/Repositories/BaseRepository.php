@@ -124,6 +124,10 @@ class BaseRepository implements EloquentRepositoryInterface
             $query->lockForUpdate();
         }
 
+        if (!empty($orders)) {
+            $query->orderBy($orders['column'], $orders['dir']);
+        }
+
         return $query->select($columns)->get();
     }
 
